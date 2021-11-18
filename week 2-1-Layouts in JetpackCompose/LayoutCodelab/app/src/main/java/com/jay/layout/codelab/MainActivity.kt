@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -489,7 +488,7 @@ private fun decoupledConstraints(margin: Dp): ConstraintSet {
         val text = createRefFor("text")
 
         constrain(button) {
-            top.linkTo(parent.top, margin= margin)
+            top.linkTo(parent.top, margin = margin)
         }
         constrain(text) {
             top.linkTo(button.bottom, margin)
@@ -502,5 +501,42 @@ private fun decoupledConstraints(margin: Dp): ConstraintSet {
 fun DecoupledConstraintLayoutPreview() {
     LayoutCodelabTheme {
         DecoupledConstraintLayout()
+    }
+}
+
+@Composable
+fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
+    Row(modifier = modifier.height(IntrinsicSize.Min)) {
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp)
+                .wrapContentWidth(Alignment.Start),
+            text = text1
+        )
+
+        Divider(
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(1.dp)
+        )
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 4.dp)
+                .wrapContentWidth(Alignment.End),
+            text = text2
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TwoTextsPreview() {
+    LayoutCodelabTheme {
+        Surface {
+            TwoTexts(text1 = "Hi", text2 = "there")
+        }
     }
 }
