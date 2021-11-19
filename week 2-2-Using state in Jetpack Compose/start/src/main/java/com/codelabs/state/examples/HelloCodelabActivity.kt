@@ -39,9 +39,9 @@ import com.codelabs.state.databinding.ActivityHelloCodelabBinding
  * An example showing unstructured state stored in an Activity.
  */
 class HelloCodelabActivity : AppCompatActivity() {
+    private val helloViewModel by viewModels<HelloViewModel>()
 
     private lateinit var binding: ActivityHelloCodelabBinding
-    var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +50,18 @@ class HelloCodelabActivity : AppCompatActivity() {
 
         // doAfterTextChange is an event that modifies state
         binding.textInput.doAfterTextChanged { text ->
-            name = text.toString()
-            updateHello()
+            helloViewModel.onNameChanged(text.toString())
+        }
+
+        helloViewModel.name.observe(this) { name ->
+            updateHello(name)
         }
     }
 
     /**
      * This function updates the screen to show the current state of [name]
      */
-    private fun updateHello() {
+    private fun updateHello(name: String) {
         binding.helloText.text = "Hello, $name"
     }
 }
